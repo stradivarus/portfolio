@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Step Up - Capital One</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="challenge_files/libs/clipboard/clipboard.min.js"></script>
+<script src="challenge_files/libs/quarto-html/quarto.js"></script>
+<script src="challenge_files/libs/quarto-html/popper.min.js"></script>
+<script src="challenge_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="challenge_files/libs/quarto-html/anchor.min.js"></script>
+<link href="challenge_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="challenge_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="challenge_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="challenge_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="challenge_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Step Up - Capital One</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>A regression model was fitted to the data.</p>
+<p>The variables ‘PARENT’ and ‘REGION’ were not found to be significant and were consequently dropped from the model.</p>
+<p>The regression results used for analysis are as follows.</p>
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         SPEND_M3_TOTAL   R-squared:                       0.754
+Model:                            OLS   Adj. R-squared:                  0.754
+Method:                 Least Squares   F-statistic:                     1436.
+Date:                Sat, 05 Aug 2023   Prob (F-statistic):               0.00
+Time:                        09:25:31   Log-Likelihood:                -40331.
+No. Observations:                7500   AIC:                         8.070e+04
+Df Residuals:                    7483   BIC:                         8.081e+04
+Df Model:                          16                                         
+Covariance Type:            nonrobust                                         
+============================================================================================
+                               coef    std err          t      P&gt;|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------------
+const                       -0.2058      3.194     -0.064      0.949      -6.466       6.055
+AGE                          0.5894      0.055     10.721      0.000       0.482       0.697
+MOBILE_APP_USER              4.8583      1.422      3.417      0.001       2.071       7.645
+SPEND_M1_TRAVEL              0.1536      0.015     10.140      0.000       0.124       0.183
+SPEND_M1_GROCERY             0.2202      0.021     10.716      0.000       0.180       0.260
+SPEND_M1_OTHER               0.2604      0.018     14.475      0.000       0.225       0.296
+SPEND_M2_TRAVEL              0.3482      0.017     20.315      0.000       0.315       0.382
+SPEND_M2_GROCERY             0.5847      0.023     25.256      0.000       0.539       0.630
+SPEND_M2_OTHER               0.3018      0.019     16.279      0.000       0.265       0.338
+OCCUPATION_Retired         -26.1656      2.224    -11.767      0.000     -30.525     -21.807
+OCCUPATION_Self-employed   -20.5128      2.152     -9.530      0.000     -24.732     -16.294
+OCCUPATION_Student          -9.7006      1.663     -5.834      0.000     -12.960      -6.441
+OCCUPATION_Unemployed      -18.5319      1.982     -9.348      0.000     -22.418     -14.646
+CARD_COLOUR_Blue            -8.8431      1.851     -4.777      0.000     -12.472      -5.214
+CARD_COLOUR_Red              1.6351      1.339      1.221      0.222      -0.990       4.260
+CREDIT_LIMIT_500            20.5617      1.503     13.681      0.000      17.616      23.508
+CREDIT_LIMIT_1000           64.6002      2.476     26.086      0.000      59.746      69.455
+==============================================================================
+Omnibus:                     1078.809   Durbin-Watson:                   1.982
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             8572.821
+Skew:                           0.448   Prob(JB):                         0.00
+Kurtosis:                       8.160   Cond. No.                         796.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>The fit was evaluated with the following metrics.</p>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-stdout">
+<pre><code>RMSE: 51.077
+R_squared: 0.754</code></pre>
+</div>
+</div>
+<p>With an R-squared of around 0.75, the fit is reasonable.</p>
+<p>An RMSE of around 50 means that the value of <code>SPEND_M3_TOTAL</code> predicted by the model differs on average from the observed value by around 50 pounds.</p>
+<hr>
+<p>The baseline was taken to be a person that has the characteristics <code>OCCUPATION_EMPLOYED</code>, <code>CARD_COLOUR_Black</code> and <code>CREDIT_LIMIT_250</code>, so the regression coefficients in the respective categories are in comparison to these values.</p>
+<p>The regressions coefficients are as follows.</p>
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<p><img src="challenge_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="the-insights-from-regression" class="level2">
+<h2 class="anchored" data-anchor-id="the-insights-from-regression">The insights from regression</h2>
+<section id="the-total-spend-in-month-3-is-expected-to-increase-by" class="level4">
+<h4 class="anchored" data-anchor-id="the-total-spend-in-month-3-is-expected-to-increase-by">The total spend in month 3 is expected to increase by</h4>
+<ul>
+<li>0.6 pounds <em>for each year</em> of a person’s <strong>age</strong></li>
+</ul>
+<section id="what-does-this-mean" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean">What does this mean?</h5>
+<p>Age is predictive of more spending. For example, a 60 year old is expected to spend on average 18 pounds more than a 30 year old in month 3.</p>
+</section>
+<section id="what-can-we-do" class="level5">
+<h5 class="anchored" data-anchor-id="what-can-we-do">What can we do?</h5>
+<p>While the difference in spending for older and younger people is not very large, we can consider focusing our advertising efforts on avenues more likely to reach younger people (internet and social media vs tv and radio).</p>
+<hr>
+</section>
+</section>
+<section id="the-total-spend-in-month-3-is-expected-to-increase-by-1" class="level4">
+<h4 class="anchored" data-anchor-id="the-total-spend-in-month-3-is-expected-to-increase-by-1">The total spend in month 3 is expected to increase by</h4>
+<ul>
+<li><p>0.2 pounds <em>for each pound</em> spent on <strong>travel in month 1</strong></p></li>
+<li><p>0.2 pounds <em>for each pound</em> spent on <strong>grocery in month 1</strong></p></li>
+<li><p>0.3 pounds <em>for each pound</em> spent on <strong>other in month 1</strong></p></li>
+<li><p>0.3 pounds <em>for each pound</em> spent on <strong>travel in month 2</strong></p></li>
+<li><p>0.6 pounds <em>for each pound</em> spent on <strong>grocery in month 2</strong></p></li>
+<li><p>0.3 pounds <em>for each pound</em> spent on <strong>other in month 2</strong></p></li>
+</ul>
+<section id="what-does-this-mean-1" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean-1">What does this mean?</h5>
+<p>Spending in previous months is predicitive of more spending in month 3. This effect seems to be stronger for more recent months. This isn’t neccessarily something that we can use for business strategy.</p>
+<hr>
+</section>
+</section>
+<section id="compared-to-a-non-mobile-app-user" class="level4">
+<h4 class="anchored" data-anchor-id="compared-to-a-non-mobile-app-user">Compared to a non-mobile app user</h4>
+<ul>
+<li>A <strong>mobile app user</strong> is expected to spend on average 4.9 pounds more in month 3</li>
+</ul>
+<section id="what-does-this-mean-2" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean-2">What does this mean?</h5>
+<p>Mobile app users spend on average more in month 3.</p>
+</section>
+<section id="what-can-we-do-1" class="level5">
+<h5 class="anchored" data-anchor-id="what-can-we-do-1">What can we do?</h5>
+<p>Encourage customers to install the app. As an example, create a lottery system that each month rewards new sign-ups with 50 pounds.</p>
+<hr>
+</section>
+</section>
+<section id="compared-to-a-person-thats-employed" class="level4">
+<h4 class="anchored" data-anchor-id="compared-to-a-person-thats-employed">Compared to a person that’s employed</h4>
+<ul>
+<li>A person that’s <strong>retired</strong> is expected to spend on average 26.2 pounds <em>less</em> in month 3</li>
+<li>A person that’s <strong>self-employed</strong> is expected to spend on average 20.5 pounds <em>less</em> in month 3</li>
+<li>A person that’s a <strong>student</strong> is expected to spend on average 9.7 pounds <em>less</em> in month 3</li>
+<li>A person that’s <strong>unemployed</strong> is expected to spend on average 18.5 pounds <em>less</em> in month 3</li>
+</ul>
+<section id="what-does-this-mean-3" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean-3">What does this mean?</h5>
+<p>Employed customers tend to spend the most, while retired and self-employed customers tend to spend the least. Interestingly, the spending of students and unemployed customers lies somewhere in the middle.</p>
+</section>
+</section>
+<section id="what-can-we-do-2" class="level4">
+<h4 class="anchored" data-anchor-id="what-can-we-do-2">What can we do?</h4>
+<p>Create separate ad campaigns targetting specifically retired and self-empoyed customers.</p>
+<p>Encourage (by email, or notification on the app) employed customers to submit customer-satisfaction surveys rating their experience with the company and sharing their feedback.</p>
+<hr>
+</section>
+<section id="compared-to-a-person-with-a-black-card" class="level4">
+<h4 class="anchored" data-anchor-id="compared-to-a-person-with-a-black-card">Compared to a person with a black card</h4>
+<ul>
+<li>A person with a <strong>blue</strong> card is expected to spend on average 8.8 pounds <em>less</em> in month 3</li>
+<li>A person with a <strong>red</strong> card is expected to spend on average 1.6 pounds more in month 3</li>
+</ul>
+<section id="what-does-this-mean-4" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean-4">What does this mean?</h5>
+<p>It appears that customer’s with blue cards spend less, while customers with black and red cards spend about the same. The idea that card color on it’s own influences spending does not seem to be reasonable. We can investigate if card color is tied, for example, to credit limit.</p>
+<div class="cell" data-execution_count="69">
+<div class="cell-output cell-output-stdout">
+<pre><code>Among black cards
+a propotion of 0.518375 has a credit limit of 250
+a proportion of 0.300636 has a credit limit of 500
+a proportion of 0.180989 has a credit limit of 1000.
+Among blue cards
+a propotion of 0.540123 has a credit limit of 250
+a proportion of 0.308642 has a credit limit of 500
+a proportion of 0.151235 has a credit limit of 1000.
+Among red cards
+a propotion of 0.509137 has a credit limit of 250
+a proportion of 0.304978 has a credit limit of 500
+a proportion of 0.185885 has a credit limit of 1000.</code></pre>
+</div>
+</div>
+<p>It does seem that among blue card owners there is more customers with a credit limit of 250 and less customers with a credit limit of 1000. That might at least partially explain why blue card owners are expected to spend less.</p>
+<hr>
+</section>
+</section>
+<section id="compared-to-a-person-with-a-credit-limit-of-250" class="level4">
+<h4 class="anchored" data-anchor-id="compared-to-a-person-with-a-credit-limit-of-250">Compared to a person with a credit limit of 250</h4>
+<ul>
+<li>A person with a <strong>credit limit of 500</strong> is expected to spend on average 20.6 pounds more in month 3</li>
+<li>A person with a <strong>credit limit of 1000</strong> is expected to spend on average 64.6 pounds more in month 3</li>
+</ul>
+<section id="what-does-this-mean-5" class="level5">
+<h5 class="anchored" data-anchor-id="what-does-this-mean-5">What does this mean?</h5>
+<p>This is perphaps an unsurprising result - people with higher credit limits spend more on their credit cards. This, of course, does not mean that raising all customer’s credit limits is a good idea.</p>
+</section>
+<section id="what-can-we-do-3" class="level5">
+<h5 class="anchored" data-anchor-id="what-can-we-do-3">What can we do?</h5>
+<p>Periodically review credit limits and notify customer’s if they are eligible for a credit limit increase.</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
