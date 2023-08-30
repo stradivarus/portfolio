@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Step Up - BT</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Solution_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Solution_files/libs/quarto-html/quarto.js"></script>
+<script src="Solution_files/libs/quarto-html/popper.min.js"></script>
+<script src="Solution_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Solution_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Solution_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Solution_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Solution_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Solution_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Solution_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Step Up - BT</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.discriminant_analysis <span class="im">import</span> LinearDiscriminantAnalysis</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"Step Up Data Set.csv"</span>, index_col<span class="op">=</span><span class="st">"customerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first look at data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.sample(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">gender</th>
+<th data-quarto-table-cell-role="th">SeniorCitizen</th>
+<th data-quarto-table-cell-role="th">Partner</th>
+<th data-quarto-table-cell-role="th">Dependents</th>
+<th data-quarto-table-cell-role="th">tenure</th>
+<th data-quarto-table-cell-role="th">PhoneService</th>
+<th data-quarto-table-cell-role="th">MultipleLines</th>
+<th data-quarto-table-cell-role="th">InternetService</th>
+<th data-quarto-table-cell-role="th">OnlineSecurity</th>
+<th data-quarto-table-cell-role="th">OnlineBackup</th>
+<th data-quarto-table-cell-role="th">DeviceProtection</th>
+<th data-quarto-table-cell-role="th">TechSupport</th>
+<th data-quarto-table-cell-role="th">StreamingTV</th>
+<th data-quarto-table-cell-role="th">StreamingMovies</th>
+<th data-quarto-table-cell-role="th">Contract</th>
+<th data-quarto-table-cell-role="th">PaperlessBilling</th>
+<th data-quarto-table-cell-role="th">PaymentMethod</th>
+<th data-quarto-table-cell-role="th">MonthlyCharges</th>
+<th data-quarto-table-cell-role="th">TotalCharges</th>
+<th data-quarto-table-cell-role="th">Churn</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">customerID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3023-GFLBR</td>
+<td>Female</td>
+<td>0</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>33</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Fiber optic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Month-to-month</td>
+<td>No</td>
+<td>Credit card (automatic)</td>
+<td>86.15</td>
+<td>2745.7</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6712-OAWRH</td>
+<td>Female</td>
+<td>1</td>
+<td>No</td>
+<td>No</td>
+<td>26</td>
+<td>Yes</td>
+<td>No</td>
+<td>Fiber optic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Month-to-month</td>
+<td>Yes</td>
+<td>Electronic check</td>
+<td>91.25</td>
+<td>2351.8</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1374-DMZUI</td>
+<td>Female</td>
+<td>1</td>
+<td>No</td>
+<td>No</td>
+<td>4</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Fiber optic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Month-to-month</td>
+<td>Yes</td>
+<td>Electronic check</td>
+<td>94.30</td>
+<td>424.45</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2103-ZRXFN</td>
+<td>Male</td>
+<td>0</td>
+<td>No</td>
+<td>No</td>
+<td>1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>DSL</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Month-to-month</td>
+<td>No</td>
+<td>Mailed check</td>
+<td>50.75</td>
+<td>50.75</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="clean-data" class="level3">
+<h3 class="anchored" data-anchor-id="clean-data">Clean data</h3>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Index: 7043 entries, 7590-VHVEG to 3186-AJIEK
+Data columns (total 20 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   gender            7043 non-null   object 
+ 1   SeniorCitizen     7043 non-null   int64  
+ 2   Partner           7043 non-null   object 
+ 3   Dependents        7043 non-null   object 
+ 4   tenure            7043 non-null   int64  
+ 5   PhoneService      7043 non-null   object 
+ 6   MultipleLines     7043 non-null   object 
+ 7   InternetService   7043 non-null   object 
+ 8   OnlineSecurity    7043 non-null   object 
+ 9   OnlineBackup      7043 non-null   object 
+ 10  DeviceProtection  7043 non-null   object 
+ 11  TechSupport       7043 non-null   object 
+ 12  StreamingTV       7043 non-null   object 
+ 13  StreamingMovies   7043 non-null   object 
+ 14  Contract          7043 non-null   object 
+ 15  PaperlessBilling  7043 non-null   object 
+ 16  PaymentMethod     7043 non-null   object 
+ 17  MonthlyCharges    7043 non-null   float64
+ 18  TotalCharges      7043 non-null   object 
+ 19  Churn             7043 non-null   object 
+dtypes: float64(1), int64(2), object(17)
+memory usage: 1.1+ MB</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change TotalCharges type to number</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"TotalCharges"</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">"TotalCharges"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># look for missing values</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>gender               0
+SeniorCitizen        0
+Partner              0
+Dependents           0
+tenure               0
+PhoneService         0
+MultipleLines        0
+InternetService      0
+OnlineSecurity       0
+OnlineBackup         0
+DeviceProtection     0
+TechSupport          0
+StreamingTV          0
+StreamingMovies      0
+Contract             0
+PaperlessBilling     0
+PaymentMethod        0
+MonthlyCharges       0
+TotalCharges        11
+Churn                0
+dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.dropna(axis<span class="op">=</span><span class="dv">0</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>gender               object
+SeniorCitizen         int64
+Partner              object
+Dependents           object
+tenure                int64
+PhoneService         object
+MultipleLines        object
+InternetService      object
+OnlineSecurity       object
+OnlineBackup         object
+DeviceProtection     object
+TechSupport          object
+StreamingTV          object
+StreamingMovies      object
+Contract             object
+PaperlessBilling     object
+PaymentMethod        object
+MonthlyCharges      float64
+TotalCharges        float64
+Churn                object
+dtype: object</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histograms</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df.hist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>array([[&lt;Axes: title={'center': 'SeniorCitizen'}&gt;,
+        &lt;Axes: title={'center': 'tenure'}&gt;],
+       [&lt;Axes: title={'center': 'MonthlyCharges'}&gt;,
+        &lt;Axes: title={'center': 'TotalCharges'}&gt;]], dtype=object)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Solution_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="prepare-data-for-modelling" class="level3">
+<h3 class="anchored" data-anchor-id="prepare-data-for-modelling">Prepare data for modelling</h3>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform yes/no variables into boolean</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> df.columns:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">sorted</span>(df[column].unique()) <span class="op">==</span> <span class="bu">sorted</span>([<span class="st">'Yes'</span>, <span class="st">'No'</span>]):</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        df.replace({column: {<span class="st">"Yes"</span>: <span class="dv">1</span>, <span class="st">"No"</span>: <span class="dv">0</span>}}, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataframe into features and response</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> df.drop([<span class="st">"Churn"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> df[<span class="st">"Churn"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform categorical variables to dummies</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> pd.get_dummies(features, drop_first<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>features.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>SeniorCitizen                                int64
+Partner                                      int64
+Dependents                                   int64
+tenure                                       int64
+PhoneService                                 int64
+PaperlessBilling                             int64
+MonthlyCharges                             float64
+TotalCharges                               float64
+gender_Female                                uint8
+gender_Male                                  uint8
+MultipleLines_No                             uint8
+MultipleLines_No phone service               uint8
+MultipleLines_Yes                            uint8
+InternetService_DSL                          uint8
+InternetService_Fiber optic                  uint8
+InternetService_No                           uint8
+OnlineSecurity_No                            uint8
+OnlineSecurity_No internet service           uint8
+OnlineSecurity_Yes                           uint8
+OnlineBackup_No                              uint8
+OnlineBackup_No internet service             uint8
+OnlineBackup_Yes                             uint8
+DeviceProtection_No                          uint8
+DeviceProtection_No internet service         uint8
+DeviceProtection_Yes                         uint8
+TechSupport_No                               uint8
+TechSupport_No internet service              uint8
+TechSupport_Yes                              uint8
+StreamingTV_No                               uint8
+StreamingTV_No internet service              uint8
+StreamingTV_Yes                              uint8
+StreamingMovies_No                           uint8
+StreamingMovies_No internet service          uint8
+StreamingMovies_Yes                          uint8
+Contract_Month-to-month                      uint8
+Contract_One year                            uint8
+Contract_Two year                            uint8
+PaymentMethod_Bank transfer (automatic)      uint8
+PaymentMethod_Credit card (automatic)        uint8
+PaymentMethod_Electronic check               uint8
+PaymentMethod_Mailed check                   uint8
+dtype: object</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What I need to do now is to drop the columns that are reduntant, but manually. I think I'll drop the "No" columns</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> features.drop([<span class="st">'gender_Female'</span>, <span class="st">'MultipleLines_No'</span>, <span class="st">'InternetService_No'</span>, <span class="st">'OnlineSecurity_No'</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">'OnlineBackup_No'</span>, <span class="st">'DeviceProtection_No'</span>,<span class="st">'TechSupport_No'</span>,<span class="st">'StreamingTV_No'</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">'StreamingMovies_No'</span>,<span class="st">'Contract_Month-to-month'</span>,<span class="st">'PaymentMethod_Bank transfer (automatic)'</span>],</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We also want to normalise numerical columns: these are tenure, MonthlyCharges and TotalCharges</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cols_to_scale <span class="op">=</span> [<span class="st">'tenure'</span>, <span class="st">'MonthlyCharges'</span>, <span class="st">'TotalCharges'</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>features[cols_to_scale] <span class="op">=</span> MinMaxScaler().fit_transform(features[cols_to_scale])</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#For some types of models data needs to be scaled, for other type it does not.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(features, response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fit-logistic-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="fit-logistic-regression-model">Fit logistic regression model</h3>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>logistic_reg <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="test-accuracy-of-model" class="level4">
+<h4 class="anchored" data-anchor-id="test-accuracy-of-model">Test accuracy of model</h4>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>logistic_reg.score(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>0.8047023132347364</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is the same result as precentage classified correctly from the confusion matrix</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>logistic_reg.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>0.8014789533560864</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> logistic_reg.predict(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a confusion matrix</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metrics.confusion_matrix(y_test, y_pred))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>,metrics.accuracy_score(y_test, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1164  143]
+ [ 206  245]]
+Accuracy: 0.8014789533560864</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metrics.classification_report(y_test, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.85      0.89      0.87      1307
+           1       0.63      0.54      0.58       451
+
+    accuracy                           0.80      1758
+   macro avg       0.74      0.72      0.73      1758
+weighted avg       0.79      0.80      0.80      1758
+</code></pre>
+</div>
+</div>
+</section>
+<section id="display-model-coefficients" class="level4">
+<h4 class="anchored" data-anchor-id="display-model-coefficients">Display model coefficients</h4>
+<div class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(6,4))</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> pd.DataFrame(<span class="bu">zip</span>(features.columns, logistic_reg.coef_[<span class="dv">0</span>]), columns<span class="op">=</span>[<span class="st">'variable'</span>, <span class="st">'coefficient'</span>])</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#coefs = coefs.sort_values(['coefficient'])</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>sns.barplot(coefs, x<span class="op">=</span><span class="st">'coefficient'</span>, y<span class="op">=</span><span class="st">'variable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>&lt;Axes: xlabel='coefficient', ylabel='variable'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Solution_files/figure-html/cell-24-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="fit-linear-discriminant-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="fit-linear-discriminant-analysis">Fit linear discriminant analysis</h3>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lda <span class="op">=</span> LinearDiscriminantAnalysis().fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>lda.score(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>0.8005309063329541</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lda.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>0.7918088737201365</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fi <span class="op">=</span> pd.DataFrame(<span class="bu">zip</span>(features.columns, lda.coef_[<span class="dv">0</span>]), columns<span class="op">=</span>[<span class="st">'variable'</span>, <span class="st">'coefficient'</span>])</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(fi, x<span class="op">=</span><span class="st">'coefficient'</span>, y<span class="op">=</span><span class="st">'variable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>&lt;Axes: xlabel='coefficient', ylabel='variable'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Solution_files/figure-html/cell-28-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="lets-try-decision-tree-and-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="lets-try-decision-tree-and-random-forest">Let’s try decision tree and random forest</h3>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>clas <span class="op">=</span> DecisionTreeClassifier().fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>clas.score(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>0.9981039059537353</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>clas.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>0.729806598407281</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>forest <span class="op">=</span> RandomForestClassifier().fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>forest.score(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>0.9981039059537353</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>forest.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>0.7946530147895335</code></pre>
+</div>
+</div>
+<p>These seem overfitted.</p>
+<hr>
+</section>
+<section id="lets-figure-out-with-features-are-significant-using-statsmodels" class="level3">
+<h3 class="anchored" data-anchor-id="lets-figure-out-with-features-are-significant-using-statsmodels">Let’s figure out with features are significant using statsmodels…</h3>
+<div class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> X_train:</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>column<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>X_train[column]<span class="sc">.</span>unique()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SeniorCitizen: [0 1]
+Partner: [0 1]
+Dependents: [0 1]
+tenure: [0.         0.46478873 0.25352113 0.04225352 0.12676056 0.61971831
+ 0.6056338  0.35211268 0.85915493 0.95774648 0.14084507 0.81690141
+ 0.47887324 0.09859155 0.49295775 0.70422535 1.         0.23943662
+ 0.05633803 0.67605634 0.84507042 0.77464789 0.15492958 0.97183099
+ 0.71830986 0.01408451 0.63380282 0.8028169  0.36619718 0.98591549
+ 0.29577465 0.26760563 0.73239437 0.92957746 0.1971831  0.08450704
+ 0.43661972 0.16901408 0.88732394 0.22535211 0.87323944 0.74647887
+ 0.32394366 0.94366197 0.66197183 0.02816901 0.56338028 0.69014085
+ 0.21126761 0.91549296 0.07042254 0.18309859 0.50704225 0.90140845
+ 0.3943662  0.57746479 0.11267606 0.30985915 0.78873239 0.83098592
+ 0.38028169 0.33802817 0.5915493  0.54929577 0.52112676 0.53521127
+ 0.64788732 0.76056338 0.4084507  0.42253521 0.45070423 0.28169014]
+PhoneService: [0 1]
+PaperlessBilling: [1 0]
+MonthlyCharges: [0.06865672 0.06766169 0.6641791  ... 0.64925373 0.96119403 0.25074627]
+TotalCharges: [0.00073275 0.09622663 0.00763905 ... 0.70106739 0.29730556 0.09380914]
+gender_Male: [1 0]
+MultipleLines_No phone service: [1 0]
+MultipleLines_Yes: [0 1]
+InternetService_DSL: [1 0]
+InternetService_Fiber optic: [0 1]
+OnlineSecurity_No internet service: [0 1]
+OnlineSecurity_Yes: [0 1]
+OnlineBackup_No internet service: [0 1]
+OnlineBackup_Yes: [0 1]
+DeviceProtection_No internet service: [0 1]
+DeviceProtection_Yes: [0 1]
+TechSupport_No internet service: [0 1]
+TechSupport_Yes: [0 1]
+StreamingTV_No internet service: [0 1]
+StreamingTV_Yes: [0 1]
+StreamingMovies_No internet service: [0 1]
+StreamingMovies_Yes: [0 1]
+Contract_One year: [0 1]
+Contract_Two year: [0 1]
+PaymentMethod_Credit card (automatic): [0 1]
+PaymentMethod_Electronic check: [1 0]
+PaymentMethod_Mailed check: [0 1]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>y_train.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>0    3856
+1    1418
+Name: Churn, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>X_train_with_c <span class="op">=</span> add_constant(X_train)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> sm.Logit(y_train, X_train_with_c).fit() <span class="co">#TotalCharges correlated with tenure??</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.417795
+         Iterations 10
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                  Churn   No. Observations:                 5274
+Model:                          Logit   Df Residuals:                     5250
+Method:                           MLE   Df Model:                           23
+Date:                Wed, 30 Aug 2023   Pseudo R-squ.:                  0.2818
+Time:                        09:39:33   Log-Likelihood:                -2203.5
+converged:                       True   LL-Null:                       -3068.1
+Covariance Type:            nonrobust   LLR p-value:                     0.000
+=========================================================================================================
+                                            coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------------------
+const                                     1.1722   3.55e+06    3.3e-07      1.000   -6.96e+06    6.96e+06
+SeniorCitizen                             0.2616      0.098      2.674      0.007       0.070       0.453
+Partner                                   0.0057      0.089      0.063      0.950      -0.170       0.181
+Dependents                               -0.1352      0.103     -1.311      0.190      -0.337       0.067
+tenure                                   -4.0654      0.500     -8.138      0.000      -5.044      -3.086
+PhoneService                              1.0757   4.75e+06   2.27e-07      1.000   -9.31e+06    9.31e+06
+PaperlessBilling                          0.4387      0.086      5.104      0.000       0.270       0.607
+MonthlyCharges                           -8.3619      3.679     -2.273      0.023     -15.573      -1.151
+TotalCharges                              2.7062      0.692      3.910      0.000       1.350       4.063
+gender_Male                              -0.0374      0.075     -0.501      0.616      -0.183       0.109
+MultipleLines_No phone service            0.0965   4.71e+06   2.05e-08      1.000   -9.24e+06    9.24e+06
+MultipleLines_Yes                         0.6563      0.204      3.224      0.001       0.257       1.055
+InternetService_DSL                      -0.5156   4.31e+06   -1.2e-07      1.000   -8.45e+06    8.45e+06
+InternetService_Fiber optic               2.2593   4.31e+06   5.24e-07      1.000   -8.45e+06    8.45e+06
+OnlineSecurity_No internet service       -0.5715        nan        nan        nan         nan         nan
+OnlineSecurity_Yes                        0.0192      0.204      0.094      0.925      -0.380       0.418
+OnlineBackup_No internet service         -0.5715        nan        nan        nan         nan         nan
+OnlineBackup_Yes                          0.2211      0.200      1.105      0.269      -0.171       0.613
+DeviceProtection_No internet service     -0.5715        nan        nan        nan         nan         nan
+DeviceProtection_Yes                      0.3205      0.204      1.575      0.115      -0.078       0.719
+TechSupport_No internet service          -0.5715        nan        nan        nan         nan         nan
+TechSupport_Yes                           0.0171      0.207      0.082      0.934      -0.389       0.423
+StreamingTV_No internet service          -0.5715        nan        nan        nan         nan         nan
+StreamingTV_Yes                           1.0190      0.375      2.714      0.007       0.283       1.755
+StreamingMovies_No internet service      -0.5715   7.39e+06  -7.73e-08      1.000   -1.45e+07    1.45e+07
+StreamingMovies_Yes                       0.9936      0.377      2.633      0.008       0.254       1.733
+Contract_One year                        -0.7243      0.125     -5.792      0.000      -0.969      -0.479
+Contract_Two year                        -1.3415      0.198     -6.788      0.000      -1.729      -0.954
+PaymentMethod_Credit card (automatic)    -0.1754      0.132     -1.334      0.182      -0.433       0.082
+PaymentMethod_Electronic check            0.1875      0.109      1.722      0.085      -0.026       0.401
+PaymentMethod_Mailed check               -0.0358      0.132     -0.271      0.786      -0.294       0.223
+=========================================================================================================</code></pre>
+</div>
+</div>
+<p>A lot of variables from above are not significant. Let’s fit log_reg with only significant vars (5% significance).</p>
+</section>
+<section id="and-fit-a-logistic-regression-model-using-only-significant-features" class="level3">
+<h3 class="anchored" data-anchor-id="and-fit-a-logistic-regression-model-using-only-significant-features">… and fit a logistic regression model using only significant features</h3>
+<div class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>features_sig <span class="op">=</span> features[[<span class="st">'SeniorCitizen'</span>, <span class="st">'tenure'</span>,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'MultipleLines_Yes'</span>, <span class="st">'Contract_One year'</span>, <span class="st">'Contract_Two year'</span>, <span class="st">'PaymentMethod_Electronic check'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>X_train_sig, X_test_sig, y_train_sig, y_test_sig <span class="op">=</span> train_test_split(features_sig, response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>logistic_reg_sig <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train_sig, y_train_sig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="test-accuracy-of-model-1" class="level4">
+<h4 class="anchored" data-anchor-id="test-accuracy-of-model-1">Test accuracy of model</h4>
+<div class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>logistic_reg_sig.score(X_train_sig, y_train_sig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>0.7825180128934395</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>logistic_reg_sig.score(X_test_sig, y_test_sig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>0.7792946530147895</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>y_pred_sig <span class="op">=</span> logistic_reg_sig.predict(X_test_sig)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metrics.classification_report(y_test_sig, y_pred_sig))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.81      0.91      0.86      1291
+           1       0.63      0.41      0.50       467
+
+    accuracy                           0.78      1758
+   macro avg       0.72      0.66      0.68      1758
+weighted avg       0.76      0.78      0.76      1758
+</code></pre>
+</div>
+</div>
+<p>Model performed well in majority class (0) but not so good in minority class (1). What can be done about that? We can try to balance the dataset.</p>
+</section>
+<section id="display-model-coefficients-1" class="level4">
+<h4 class="anchored" data-anchor-id="display-model-coefficients-1">Display model coefficients</h4>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> pd.DataFrame(<span class="bu">zip</span>(features_sig.columns, logistic_reg_sig.coef_[<span class="dv">0</span>]), columns<span class="op">=</span>[<span class="st">'variable'</span>, <span class="st">'coefficient'</span>])</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(coefs, x<span class="op">=</span><span class="st">'coefficient'</span>, y<span class="op">=</span><span class="st">'variable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>&lt;Axes: xlabel='coefficient', ylabel='variable'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Solution_files/figure-html/cell-44-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="mitigating-the-imbalanced-dataset-with-smote" class="level3">
+<h3 class="anchored" data-anchor-id="mitigating-the-imbalanced-dataset-with-smote">Mitigating the imbalanced dataset with SMOTE</h3>
+<p>SMOTE is an oversampling technique in which we create more samples for the minority class.</p>
+<section id="balance-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="balance-dataset">Balance dataset</h4>
+<div class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> imblearn.over_sampling <span class="im">import</span> SMOTE</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>smote <span class="op">=</span> SMOTE(sampling_strategy<span class="op">=</span><span class="st">"minority"</span>)</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>features_sm, response_sm <span class="op">=</span> smote.fit_resample(features, response)</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>response_sm.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="69">
+<pre><code>0    5163
+1    5163
+Name: Churn, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell" data-scrolled="true" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>response.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="70">
+<pre><code>0    5163
+1    1869
+Name: Churn, dtype: int64</code></pre>
+</div>
+</div>
+<p>So the dataset is now balanced in terms of numbers of people with response (1) and (0).</p>
+</section>
+<section id="fit-logistic-regression-to-balanced-data" class="level4">
+<h4 class="anchored" data-anchor-id="fit-logistic-regression-to-balanced-data">Fit logistic regression to balanced data</h4>
+<div class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>X_train_sm, X_test_sm, y_train_sm, y_test_sm <span class="op">=</span> train_test_split(features_sm, response_sm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>logistic_reg_sm <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(X_train_sm, y_train_sm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="test-accuracy-of-model-2" class="level4">
+<h4 class="anchored" data-anchor-id="test-accuracy-of-model-2">Test accuracy of model</h4>
+<div class="cell" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>y_pred_sm <span class="op">=</span> logistic_reg_sm.predict(X_test_sm)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metrics.classification_report(y_test_sm, y_pred_sm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.82      0.76      0.79      1318
+           1       0.77      0.83      0.80      1264
+
+    accuracy                           0.79      2582
+   macro avg       0.80      0.79      0.79      2582
+weighted avg       0.80      0.79      0.79      2582
+</code></pre>
+</div>
+</div>
+<p>The model performs better in minority class now.</p>
+</section>
+<section id="display-absolute-values-of-model-coefficients" class="level4">
+<h4 class="anchored" data-anchor-id="display-absolute-values-of-model-coefficients">Display absolute values of model coefficients</h4>
+<div class="cell" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>abs_coefs <span class="op">=</span> [<span class="bu">abs</span>(i) <span class="cf">for</span> i <span class="kw">in</span> logistic_reg_sm.coef_[<span class="dv">0</span>]]</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> pd.DataFrame(<span class="bu">zip</span>(features_sm.columns, abs_coefs), columns<span class="op">=</span>[<span class="st">'variable'</span>, <span class="st">'coefficient'</span>])</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> coefs.sort_values([<span class="st">'coefficient'</span>], ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>sns.barplot(coefs, x<span class="op">=</span><span class="st">'coefficient'</span>, y<span class="op">=</span><span class="st">'variable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="81">
+<pre><code>&lt;Axes: xlabel='coefficient', ylabel='variable'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Solution_files/figure-html/cell-50-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>After using oversampling to balance the dataset, it appears that MonthlyCharges is by far the most important variable that can be used to predict Churn, with tenure being the second most important variable.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
